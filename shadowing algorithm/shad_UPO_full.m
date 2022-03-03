@@ -14,7 +14,7 @@
 % indice_shad(N,1): index that identifies the shadowing UPO in the UPO
 % array
 % indice_shad_UPO(number_UPOs, 1): for each UPO it contains the index that realises the
-% minimum with punto.
+% minimum with punto, not just the shadowing ones! (VARIABLE NEEDED FOR THE REDUCED ALGORITHM!)
 
 
 

@@ -1,5 +1,5 @@
 %TRANSITION
-now1 = tic();
+%now1 = tic();
 % load data
 load('upo_data.mat')
 %%
@@ -10,7 +10,7 @@ F=5;
 % parameters
 
 M=40;
-T_chaotic = 10^3;
+T_chaotic = 1;
 dt = 0.01;
 
 number_UPO=length(T);
@@ -38,4 +38,6 @@ tempo_esecuzione = toc(now1);
 save('shadowing_UPO_reduced.mat','shadowing_UPO_reduced')
 save('dist_shadowing_UPO_reduced.mat', 'dist_shadowing_UPO_reduced')
 save('shadowing_stats.mat', 'number_orbits_for_approximation', 'UPOs_approx_index', 'time_approx', 'period_approx')
+save('x_chaotic.mat', 'x_chaotic')
+save('indice_shad_UPO_reduced.mat','indice_shad_UPO_reduced')
 %save('shadowing.mat')
