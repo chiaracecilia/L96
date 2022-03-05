@@ -8,7 +8,7 @@
 % lambda(1,number_UPOs): maximal Lyap expo of the UPOs in the db
 
 
-% OUTPUT: total time(number_UPOs, N): for each UPO in each tier, its shadowing
+% OUTPUT: total time(number_UPOs, N): for each UPO in each tier, its total shadowing
 % time
  % number_orbits_for_approximation(1,N): number of orbits used in the
 % shadowing for each tier

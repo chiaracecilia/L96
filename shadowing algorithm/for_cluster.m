@@ -9,14 +9,15 @@ F=5;
 % load('lambda.mat')
 % parameters
 
-M=40;
-T_chaotic = 1;
-dt = 0.01;
 
+T_chaotic = 5;
+N=10; % number of tiers
+
+M=40;
+dt = 0.01;
 number_UPO=length(T);
 
 tau=5;
-N=50; % number of tiers
 K = 10; % every K time step execute the full algorithm 
 
 
@@ -34,9 +35,9 @@ x_chaotic = create_chaotic_trajectory(dt, T_chaotic,M, F);
 
 % 
 [number_orbits_for_approximation, UPOs_approx_index, time_approx, period_approx] = residence_time_tiers(shadowing_UPO_reduced, dt, T,  N);
-tempo_esecuzione = toc(now1);
+%tempo_esecuzione = toc(now1);
 save('shadowing_UPO_reduced.mat','shadowing_UPO_reduced')
-save('dist_shadowing_UPO_reduced.mat', 'dist_shadowing_UPO_reduced')
+save('dist_shadowing_UPO_reduced.mat', 'dist_shadowing_UPO_reduced', 'dist')
 save('shadowing_stats.mat', 'number_orbits_for_approximation', 'UPOs_approx_index', 'time_approx', 'period_approx')
 save('x_chaotic.mat', 'x_chaotic')
 save('indice_shad_UPO_reduced.mat','indice_shad_UPO_reduced')
