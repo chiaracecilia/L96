@@ -1,16 +1,22 @@
-%function [Texp,Lexp]=lyapunov(n,rhs_ext_fcn,fcn_integrator,tstart,stept,tend,ystart,ioutp)
+function [Texp,Lexp]=lyapunov(n,rhs_ext_fcn,fcn_integrator,tstart,stept,tend,ystart,ioutp)
 
-n=40;
-rhs_ext_fcn=@lorenz96_ext;
-fcn_integrator=@ode45;
+% n=3;
+% rhs_ext_fcn = @lorenz_ext;
+% ystart = [0,1,0];
 
-tstart = 0;
-stept=0.5;
-tend = 10;
-ystart = ones(1,40);
-ioutp = 0;
-M=40;
-F=5;
+% n=40;
+% rhs_ext_fcn=@lorenz96_ext;
+% ystart = ones(40,1);
+% ystart(4:10) = 0;
+% 
+% 
+% fcn_integrator=@ode45;
+% 
+% tstart = 0;
+% stept=0.5;
+% tend = 100;
+% ioutp = 0;
+
 %    Lyapunov exponent calculation for ODE-system.
 %
 %    The alogrithm employed in this m-file for determining Lyapunov
@@ -71,6 +77,7 @@ cum=zeros(n1,1);
 y0=y;
 gsc=cum; 
 znorm=cum; % contains the norm of the normalised based at each increment
+t=tstart;
 
 % Initial values
 y(1:n)=ystart(:); % initial condition of the ODE
@@ -79,8 +86,9 @@ for i=1:n1
     y((n1+1)*i)=1.0; % initial condition of the tangent linear
 end
 
-t=tstart; % initial time 
 
+
+%%
 % Main loop
 
 for ITERLYAP=1:nit

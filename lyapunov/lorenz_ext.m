@@ -1,5 +1,26 @@
 
 function f=lorenz_ext(t,X)
+
+% 
+% n=3;
+% rhs_ext_fcn = @lorenz_ext;
+% ystart = [0,1,0];
+% n1=n; % n=number of nonlinear odes
+% n2=n1*(n1+1); % total number of odes
+% 
+% 
+% 
+% % Memory allocation 
+% y=zeros(n2,1); 
+% y0=y;
+% 
+% y(1:n)=ystart(:); % initial condition of the ODE
+% 
+% for i=1:n1 
+%     y((n1+1)*i)=1.0; % initial condition of the tangent linear
+% end
+% X = y;
+
 %
 %X = [1,2,3];
 %
