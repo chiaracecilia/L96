@@ -1,37 +1,36 @@
 %% This function calculates the Lyapunov exponents of the Lorenz-96 model
-
-%% parameters
-
-
-
 % L96 parameters
-M=40;
-F=8;
+% 
+% Integrator = @lorenz96_ext;
+% M=40;
+% F=8;
+% 
+% % initial condition for the ODE system
+% ic = zeros(1,M);
+% ic(2)=1;
+% 
+% 
+% Initial_time=0;          %Initial time: 0
+% Final_time=2500;         %Final Time: 1000 sec 
+% dt=0.001;          %Time step: 0.01 sec
+% 
+% RelTol=1e-5;            %Relative tolerance
+% AbsTol=1e-6;            %Absolute tolerance
+% 
+% linODEnum=M*M;              %No. of linearized ODEs
+% %M=sqrt(linODEnum); %Dimension of the tangent linear system (total: M x M ODEs)
+% 
+% Iteration = 0.1; % this is measured in time (and not time-steps)
+% Discard_time = 2000; %NB: this seems enough to avoid the 
+% %    Number_Iteration_Discard=10;            %Transient iterations to be discarded: 
+% %    Update_LE=10;         %Update the LEs every 10 time steps
+% %    Iteration = Update_LE*dt;	% this is measured in time (and not time-steps)
+% %    Discard_time = Number_Iteration_Discard*Iteration+Initial_time; % Time at which I will start iterating the algorithm
 
-% initial condition for the ODE system
-ic = zeros(1,M);
-ic(2)=1;
+
+function [Lepx, Texp] = lyapunov(Integrator, M,Initial_time, Final_time, dt, AbsTol, RelTol, Iteration , Discard_time, ic)
 
 
-Initial_time=0;          %Initial time: 0
-Final_time=2500;         %Final Time: 1000 sec 
-dt=0.001;          %Time step: 0.01 sec
-
-RelTol=1e-5;            %Relative tolerance
-AbsTol=1e-6;            %Absolute tolerance
-
-linODEnum=M*M;              %No. of linearized ODEs
-%M=sqrt(linODEnum); %Dimension of the tangent linear system (total: M x M ODEs)
-
-Iteration = 0.1; % this is measured in time (and not time-steps)
-Discard_time = 2000; %NB: this seems enough to avoid the 
-%    Number_Iteration_Discard=10;            %Transient iterations to be discarded: 
-%    Update_LE=10;         %Update the LEs every 10 time steps
-%    Iteration = Update_LE*dt;	% this is measured in time (and not time-steps)
-%    Discard_time = Number_Iteration_Discard*Iteration+Initial_time; % Time at which I will start iterating the algorithm
-
-
-x = midpoint(0,dt, Final_time, ic, M, F);
 %%
 %Initial conditions for the tangent linear
 
@@ -66,7 +65,8 @@ while (T2<Final_time)       % Iterate till the given Final Time
     
     n=n+1;  % count total integrations
 
-    [t, X] = ode45(@lorenz96_ext, TSpan, IC, options); % solve the extended system in an Iteration time-span
+    [t, X] = ode45(Integrator, TSpan, IC, options); % solve the extended system in an Iteration time-span
+    x = midpoint(Integrator, tmin,dt, tmax, init_con, M, F)
 
     [rX,cX]=size(X);
                         
