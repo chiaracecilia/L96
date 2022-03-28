@@ -28,14 +28,14 @@
 % %    Discard_time = Number_Iteration_Discard*Iteration+Initial_time; % Time at which I will start iterating the algorithm
 
 
-function [Lepx, Texp] = lyapunov(Integrator, M,Initial_time, Final_time, dt, AbsTol, RelTol, Iteration , Discard_time, ic)
+function [Lexp, Texp, Lambda] = lyapunov(Integrator, M,Initial_time, Final_time, dt, AbsTol, RelTol, Iteration , Discard_time, ic)
 
 
 %%
 %Initial conditions for the tangent linear
 
 Q0 = eye(M);      % initialise on an identity matrix
-IC = [ic(:);Q0(:)];   % extended initial condition (ODE + TANGENT LINER - this is a column vector-)
+IC = [ic(:);Q0(:)];   % extended initial condition (ODE + TANGENT LINEAR - this is a column vector-)
 
 M_ext = length(IC);		%Total no. of initial coniditions for the extended system (It will be (N+1)*N)
 

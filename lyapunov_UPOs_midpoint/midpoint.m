@@ -11,7 +11,7 @@
 function x = midpoint(func, tmin,dt, tmax, init_con, M, F)
 
 t = tmin:dt:tmax;
-x = zeros(length(t),M);
+x = zeros(length(t),length(init_con));
 
 x(1,:)=init_con;
 
