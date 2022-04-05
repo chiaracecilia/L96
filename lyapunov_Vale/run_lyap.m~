@@ -1,5 +1,0 @@
-[T,Res]=lyapunov(9,@lorenz_ext,@ode45,0,0.5,200,ran(1,40),10);
-plot(T,Res);
-title('Dynamics of Lyapunov exponents');
-xlabel('Time'); ylabel('Lyapunov exponents');
-
