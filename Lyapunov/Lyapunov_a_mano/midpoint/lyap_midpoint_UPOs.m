@@ -5,28 +5,32 @@ clc
 
 load('F8_raw.mat')
 
+
 N=40;
 F=8;
+M = N;
 
-
-j=3; % UPO 3
+j=4; % UPO 3
 dt = 0.01;
 T = Tp(j); % period UPO
 X = Xp(:, j);
 yo = X;
+
+%
+dtL=T; % each step of the Lyapunov simulation is dtL long
 
 T_timeunits = T/dt;
 tau = dt * T_timeunits/fix(T_timeunits);
 
 
 Tspin=10*T; % discard the first part
-Tfin=100*T; % Final time. How many times do I turn around the period?
+Tfin=400*T; % Final time. How many times do I turn around the period?
 
-dtL=0.1; % each step of the Lyapunov simulation is dtL long
-% dtL=T/10; choose the number of Lyapunov steps as sottomultiplo del
-% periodo.
+%[x, dist] = calculate_UPO(X, T, dt,M, F);
+
 
 Nstep= floor(Tfin/dtL);  % number of steps of the Lyap algorithm
+
 time=dtL*[0:Nstep]; % total time of the simulation. I will have Nstep each one of duration dtL
 
 
@@ -60,8 +64,13 @@ timecount=0;
 turns = 0;    % counts how many times I run around the UPO
 %%
 for j=1:Nstep % N steps in this procedure
-    tic
-    j
+    
+        %Update the initial conditions and time span for the next iteration
+    if (time(j+1) + dtL > turns*T)
+        turns = turns+1;
+        ci = X';
+    end
+
     %   [T,Y] = ode45(@lorenz96irr,[time(j):dtL/10:time(j+1)],ci,options,F,N);
     Y = midpoint(@lorenz96, time(j),tau, time(j+1), ci, N, F); % reference trajectory PROBLEM HERE, need to have dt = 0.01;
     
@@ -83,16 +92,8 @@ for j=1:Nstep % N steps in this procedure
     %ecco i nuovi vettori di perturbazione
     Mpert=eps*Q1;
     
-    %Update the initial conditions and time span for the next iteration
-    if (time(j+1)< turns*T)
-        ci=yt; % last point on the reference trajectory
-    else
-        turns = turns+1;
-        ci = X';
-    end
     
-    
-    
+    ci=yt; 
     Texp(j)=time(j+1); % continue the integration
     dia=diag(log(abs(R1/eps)));
     Lexph1irrnum(j,:)=dia/dtL; % this contains the value of the LE

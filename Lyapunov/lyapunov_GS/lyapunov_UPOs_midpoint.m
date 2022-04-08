@@ -1,8 +1,9 @@
-%function [Lambda, turns] = lyapunov_UPOs_midpoint(stept)
+%function [Lambda, turns] = lyapunov_UPOs_midpoint(stept, j)
 clear all
 clc
 
 load('F8_raw.mat')
+
 
 % parameters
 n = 40; % n - number of equation
@@ -10,7 +11,7 @@ F = 8;
 M = n; % dimension of the L-96 system
 
 % UPO data
-j=5; % UPO 3
+j=4;
 dt = 0.01;
 T = Tp(j); % period UPO
 X = Xp(:, j);
@@ -20,16 +21,19 @@ ystart = X'; % starting condition
 T_timeunits = T/dt;
 tau = dt * T_timeunits/fix(T_timeunits);
 
-[x, dist] = calculate_UPO(X, T, dt,M, F);
+
+%%%%%%%%%%%%%%%
+stept = T;
+%%%%%%%%%%%%%%%
+
+[x, dist] = calculate_UPO(X, T, dt,M, F); % sanity check 
 
 % Lyapunov algorithm spcification
 tstart = 0;
 
-stept = T/10; % choose the number of Lyapunov steps as sottomultiplo del
-% periodo
-
-tend = 100*T; % Final time. How many times do I turn around the period?
-
+%%%%%%%%%%%%%%%
+tend = 400*T; % Final time. How many times do I turn around the period?
+%%%%%%%%%%%%%%%
 
 n1=n; % number of nonlinear ODEs
 n2=n1*(n1+1); % total number of equation
@@ -43,7 +47,7 @@ y=zeros(n2,1);
 cum=zeros(n1,1);
 y0=y;
 gsc=cum;
-znorm=cum; % contains the norm of the normalised base at each increment
+znorm=cum; % contains the norm of the normalised base at each increment (diagonal elements of R - upper triangular matrix)
 
 % Initial values
 
@@ -126,7 +130,7 @@ for ITERLYAP=1:nit
     %  update running vector magnitudes
     
     for k=1:n1 
-        cum(k)=cum(k)+log(znorm(k)); 
+        cum(k)=cum(k)+log(znorm(k)); % diagonal elements of R
     end
     
     %  normalize exponent

@@ -1,4 +1,4 @@
-function [Texp,Lexp]=lyapunov_midpoint(n,F, tau, tstart,stept,tend,ystart,ioutp)
+function [Texp,Lexp, Lambda]=lyapunov_midpoint(n,F, tau, tstart,stept,tend,ystart,ioutp)
 
 %
 %    Input parameters:
@@ -139,3 +139,4 @@ for ITERLYAP=1:nit
   end;
 
 end;
+Lambda = Lexp(end,:);
