@@ -29,7 +29,7 @@ tau = dt * T_timeunits/fix(T_timeunits);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-stept = T/2;
+stept = T;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [x, dist] = calculate_UPO(X, T, dt,M, F); % sanity check 
@@ -37,7 +37,7 @@ stept = T/2;
 % hold on 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-tend = 1000*T; % Final time. How many times do I turn around the period?
+tend = 4000*T; % Final time. How many times do I turn around the period?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Lyapunov algorithm spcification
@@ -229,8 +229,7 @@ hist(Lexp_ist(:,j),50)
 plot(Lexp_cum(1:end,j));
 
 %%
-MATRIX = R(:,:, end-100:end);
+MATRIX = R(:,:, end-100);
 
 for i = 1:100
-    R(1:3,1:3, i)
-end
+    

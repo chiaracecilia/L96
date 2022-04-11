@@ -11,7 +11,7 @@ tend = 1000;
 
 ystart = rand(1,40);
 ioutp = 0;
-
+%%
 stept = [0.1:0.1:1.1];
 
 
