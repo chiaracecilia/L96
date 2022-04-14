@@ -74,14 +74,15 @@ for j=1:Nstep % N steps in this procedure
     end
     
     % decompose the perturbed matrix
-    Mtan=ytpert';
+    Mtan=ytpert;
     [Q1,R1] = qr(Mtan);
+    
     R(:,:, j) = R1;
     Q(:,:, j) = Q1;
     A(:,:, j) = Mtan;
     
     %ecco i nuovi vettori di perturbazione
-    Mpert=eps*Q1';    
+    Mpert=eps*Q1;    
     
     ci=yt; 
     Texp(j)=time(j+1); % continue the integration

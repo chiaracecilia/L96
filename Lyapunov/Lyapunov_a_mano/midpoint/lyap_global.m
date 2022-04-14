@@ -1,8 +1,8 @@
 % test algorithm for UPOs
 
 Tspin=50; % transient time
-Tfin=100;
-dtL=0.5;
+Tfin=1000;
+dtL=0.1;
 
 Nstep=Tfin/dtL;
 time=dtL*[0:Nstep];
@@ -42,7 +42,7 @@ for j=1:Nstep
     Mtan=ytpert';
     [Q1,R1] = qr(Mtan);
     %ecco la QR
-    Mpert=eps*Q1;
+    Mpert=eps*Q1';
     %ecco i nuovi vettori di perturbazione
     ci=yt;
     
@@ -52,3 +52,4 @@ for j=1:Nstep
     
     
 end
+Lambda = mean(Lexph1irrnum); 
