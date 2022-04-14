@@ -17,7 +17,7 @@ F = 8;
 M = n; % dimension of the L-96 system
 
 % UPO data
-j=2;
+j=1;
 dt = 0.01;
 T = Tp(j); % period UPO
 X = Xp(:, j);
@@ -29,7 +29,7 @@ tau = dt * T_timeunits/fix(T_timeunits);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-stept = T/2;
+stept = T;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [x, dist] = calculate_UPO(X, T, dt,M, F); % sanity check 
@@ -59,6 +59,7 @@ y0=y;
 gsc=cum;
 znorm=cum; % contains the norm of the normalised base at each increment (diagonal elements of R - upper triangular matrix)
 % values of the exponents
+Rjj = zeros(M, nit);
 l_cum = zeros(M,1);
 l_ist = zeros(M,1);
 Lexp_cum = zeros(nit, M); % cumulative mean of the exponents
@@ -67,11 +68,10 @@ Texp = zeros(nit, 1);   % time of the simulation
 
 
 Q = zeros(n1,n1, nit); % contains the matrix Q of the decomposition
-R = zeros(n1,n1, nit);% contains the matrix R of the decomposition
 A = zeros(n1,n1, nit);% contains the matrix A of the decomposition
+R = zeros(n1,n1, nit);% contains the matrix A of the decomposition
 
 % Initial values
-
 y(1:n)=ystart(:); % initial condition of the ODE
 
 for i=1:n1
@@ -130,13 +130,13 @@ for ITERLYAP=1:nit
     end
     
     znorm(1)=sqrt(znorm(1)); % Euclidian norm (sqrt of the summed squared components)
+    Rjj(1, ITERLYAP) = znorm(1);
     
     for j=1:n1 
         y0(n1*j+1)=y0(n1*j+1)/znorm(1); 
         Q(j,1, ITERLYAP) =  y0(n1*j+1); % first column contains the first orthogonal vector
  
     end
-    R(1,1, ITERLYAP) = dot(A(:,1, ITERLYAP) , Q(:,1, ITERLYAP) );
     
     
     for j=2:n1   % at each iteration I find the orthogonal vector stored in column j of the Q matrix
@@ -169,11 +169,11 @@ for ITERLYAP=1:nit
             y0(n1*k+j)=y0(n1*k+j)/znorm(j); 
             Q(k,j, ITERLYAP) =  y0(n1*k+j); % first column contains the first orthogonal vector
         end
+           Rjj(j, ITERLYAP) = znorm(j);
         
     end
-    
-    R(:,:, ITERLYAP) = Q(:,:, ITERLYAP)'* A(:,:, ITERLYAP);
-    
+    R(:,:, ITERLYAP)=transpose(Q(:,:, ITERLYAP))* A(:,:, ITERLYAP);
+ 
     %  Calculate and save exponents
     
     %  update running vector magnitudes
@@ -194,7 +194,7 @@ for ITERLYAP=1:nit
     Lexp_ist(ITERLYAP,:) = l_ist;   % finite time Lyapunov exponents
     
     
-    % update initial condition for next iteration
+    % update initial condition for next iteration (re-transpose)
     for i=1:n1
         for j=1:n1
             y(n1*j+i)=y0(n1*i+j);
@@ -212,25 +212,26 @@ Lambda_average_second_half = mean(Lexp_ist(round(l/2):end,:));
 
 % %% distribution istantaneous Lyap expo
 
-j = 2; % exponent that I am considering 
-ist_exp = Lexp_ist(l:end,j);
-hist(ist_exp, 50)
-
-
-plot(Lexp_ist(:,j));
-%%
-j = 12
-plot(Lexp_ist(1:end,j));
-
-%%
-j=40;
-hist(Lexp_ist(:,j),50)
-%%
-plot(Lexp_cum(1:end,j));
-
+% j = 2; % exponent that I am considering 
+% ist_exp = Lexp_ist(l:end,j);
+% hist(ist_exp, 50)
+% 
+% 
+% plot(Lexp_ist(:,j));
+% %%
+% j = 18
+% plot(Lexp_ist(1:end,j));
+% 
+% %%
+% j=40;
+% hist(Lexp_ist(:,j),50)
+% %%
+% plot(Lexp_cum(1:end,j));
+% 
 %%
 MATRIX = R(:,:, end-100:end);
 
 for i = 1:100
-    R(1:3,1:3, i)
+    R(1:5,1:5, i)
+    Rjj(1:5,i)    
 end

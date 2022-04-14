@@ -1,21 +1,8 @@
 % This script calculates the Lyapunov spectrum by hand for the UPOs
 
-clear all
-clc 
+function Lambda = lyap_midpoint(N,F, dt, dtL,Tfin,Tspin, yo)
 
-%load('F8_raw.mat')
 
-N=40;
-F=8;
-
-dt = 0.01;
-T = 10;
-yo = rand(1,40);
-
-Tspin=10*T; % discard the first part
-Tfin=100*T; % Final time. How many times do I turn around the period?
-
-dtL=0.1; % each step of the Lyapunov simulation is dtL long 
 
 
 Nstep= round(Tfin/dtL);  % number of steps of the Lyap algorithm
@@ -84,13 +71,7 @@ for j=1:Nstep % N steps in this procedure
   sumlyapunov=sum(sum(Lexph1irrnum(1:j,:)))/j ;
   firstlyapunov=mean(Lexph1irrnum(1:j,1)) ;
 
-  
-  %qualche cosa stampata come controllo
-
-  timeint=toc;
-  timecount=timecount+timeint
-  mtime=timecount/j;
-  timetocompletion=mtime*(Nstep-j)
-  %quanto ci vuole per finire?
 
 end
+
+Lambda = mean(Lexph1irrnum) ;

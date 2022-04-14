@@ -3,15 +3,18 @@
 clear all
 clc
 
-load('F8_raw.mat')
+load('F5_raw.mat')
 
 
 N=40;
-F=8;
+F=5;
 M = N;
 
-j=4; % UPO 3
+%%%
+j=3; % UPO 3
 dt = 0.01;
+%%
+
 T = Tp(j); % period UPO
 X = Xp(:, j);
 yo = X;
@@ -29,7 +32,7 @@ Tfin=400*T; % Final time. How many times do I turn around the period?
 %[x, dist] = calculate_UPO(X, T, dt,M, F);
 
 
-Nstep= floor(Tfin/dtL);  % number of steps of the Lyap algorithm
+Nstep= round(Tfin/dtL);  % number of steps of the Lyap algorithm
 
 time=dtL*[0:Nstep]; % total time of the simulation. I will have Nstep each one of duration dtL
 

@@ -2,20 +2,18 @@
 clear all
 clc 
 
-load('F8_raw.mat')
 
 N=40;
 F=8;
 dt = 0.01;
 
-j=3; % UPO 3
-T = Tp(j); % period UPO
-yo = Xp(:, j);
+T = 2; % period UPO
+yo = rand(1, N);
 
 Tspin=10*T; % discard the first part
 Tfin=100*T; % Final time. How many times do I turn around the period?
 
-dtL=T/10; % each step of the Lyapunov simulation is dtL long 
+dtL=0.6; % each step of the Lyapunov simulation is dtL long 
 
 Nstep= round(Tfin/dtL);  % number of steps of the Lyap algorithm
 time=dtL*[0:Nstep]; % total time of the simulation. I will have Nstep each one of duration dtL
@@ -29,8 +27,7 @@ tic
 toc
 
 
-
-eps=1e-8; % displacement
+eps=1e-7; % displacement
 
 yo=Yirr(end,:); % last point of the integration
 yin=yo;
