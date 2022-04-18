@@ -2,14 +2,15 @@
 clear all
 clc
 
-load('F5_raw.mat')
+%load('F5_raw.mat')
+load('raw_F5_M20.mat')
 
-j=3;
+j=4;
 T = Tp(j);
 X = Xp(:,j);
-tend = T*10000;
+tend = T*100;
 F = 5;
-M=40;
+M=20;
 stept = T;
 
 % parameters
@@ -200,8 +201,13 @@ Lambda_average_second_half = mean(Lexp_ist(round(l/2):end,:));
 % R(j,j,k)
 % Rjj(j, k)
 %%
-MAT = R(1:10,1:10, end-10:end);
-for i = 1:10
-    MAT(:,:,i)
-end
+% MAT = R(1:10,1:10, end-10:end);
+% for i = 1:10
+%     MAT(:,:,i)
+% end
 
+%%
+L= Lp(:,4);
+plot(Lambda_average_second_half)
+hold on 
+plot(L, '*')

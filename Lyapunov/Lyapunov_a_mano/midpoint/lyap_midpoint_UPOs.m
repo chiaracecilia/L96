@@ -3,20 +3,22 @@
 clear all
 clc
 
-load('F5_raw.mat')
+%load('F5_raw.mat')
+load('raw_F5_M20.mat')
 
-N = 40;
+N = 20;
 F = 5;
 M = N;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-j=3; % UPO 3
+j=1; % UPO 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 dt = 0.01;
 
 T = Tp(j); % period UPO
 X = Xp(:, j);
+L= Lp(:,j);
 
 T_timeunits = T/dt;
 tau = dt * T_timeunits/fix(T_timeunits);
@@ -25,7 +27,7 @@ tau = dt * T_timeunits/fix(T_timeunits);
 dtL=T; % each step of the Lyapunov simulation is dtL long
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Tfin=1000*T; % Final time. How many times do I turn around the period?
+Tfin=100*T; % Final time. How many times do I turn around the period?
 
 Nstep= round(Tfin/dtL);  % number of steps of the Lyap algorithm
 time=dtL*[0:Nstep]; % total time of the simulation. I will have Nstep each one of duration dtL
@@ -38,7 +40,7 @@ traj_irr=zeros(Nstep,N); % contains the final point of the reference traj at eac
 ytpert=zeros(N,N);  % contains the perturbation for each direction
 
 Texp=zeros(Nstep,1);    % contains the time at which I calculate the Lyap expo
-Lexp_ist=zeros(Nstep,N);   % contains the istantaneous Lyap exponents approximation at each time step
+Lexp_ist_V=zeros(Nstep,N);   % contains the istantaneous Lyap exponents approximation at each time step
 Lexp_cum=zeros(Nstep,N);    % contains the cumulative Lyap expo
 cum=zeros(N,1);
 
@@ -88,11 +90,20 @@ for j=1:Nstep % N steps in this procedure
     dia=diag(log(abs(R1/eps)));
     cum = cum + dia;
     Lexp_cum(j,:) = cum/time(j); 
-    Lexp_ist(j,:)=dia/dtL; % this contains the value of the LE
+    Lexp_ist_V(j,:)=dia/dtL; % this contains the value of the LE
             
 end
 
 
 Lambda = Lexp_cum(end, :); 
 l = length(Lambda(:,1));
-Lambda_average_second_half = mean(Lexp_ist(round(l/2):end,:));
+Lambda_average_second_half = mean(Lexp_ist_V(round(l/2):end,:));
+
+
+
+%% look at the matrix
+%%
+
+plot(Lambda_average_second_half, 'o')
+hold on 
+plot(L, '*')
