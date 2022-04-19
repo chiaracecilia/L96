@@ -1,33 +1,15 @@
 % This script calculates the Lyapunov spectrum by hand for the UPOs
 
-clear all
-clc
+function Lambda_average_second_half = LE_byhand(N, F, dtL, Tfin, T, X, tau)
 
-%load('F5_raw.mat')
-load('raw_F5_M20.mat')
-
-N = 20;
-F = 5;
 M = N;
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-j=1; % UPO 3
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dt = 0.01;
-
-T = Tp(j); % period UPO
-X = Xp(:, j);
-L= Lp(:,j);
-
-T_timeunits = T/dt;
-tau = dt * T_timeunits/fix(T_timeunits);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-dtL=T; % each step of the Lyapunov simulation is dtL long
+%dtL=T; % each step of the Lyapunov simulation is dtL long
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Tfin=100*T; % Final time. How many times do I turn around the period?
 
 Nstep= round(Tfin/dtL);  % number of steps of the Lyap algorithm
 time=dtL*[0:Nstep]; % total time of the simulation. I will have Nstep each one of duration dtL
@@ -101,9 +83,4 @@ Lambda_average_second_half = mean(Lexp_ist_V(round(l/2):end,:));
 
 
 
-%% look at the matrix
-%%
 
-plot(Lambda_average_second_half, 'o', 'DisplayName','QR decomposition')
-hold on 
-plot(L, '*', 'DisplayName','Andreys LE')

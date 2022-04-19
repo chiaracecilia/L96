@@ -10,10 +10,10 @@ F=5;
 % parameters
 
 
-T_chaotic = 5;
+T_chaotic = 100;
 N=10; % number of tiers
 
-M=40;
+M=20;
 dt = 0.01;
 number_UPO=length(T);
 
@@ -41,4 +41,4 @@ save('dist_shadowing_UPO_reduced.mat', 'dist_shadowing_UPO_reduced', 'dist')
 save('shadowing_stats.mat', 'number_orbits_for_approximation', 'UPOs_approx_index', 'time_approx', 'period_approx')
 save('x_chaotic.mat', 'x_chaotic')
 save('indice_shad_UPO_reduced.mat','indice_shad_UPO_reduced')
-%save('shadowing.mat')
+
