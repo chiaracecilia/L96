@@ -1,4 +1,3 @@
-
 clear all
 clc
 
@@ -9,28 +8,29 @@ N = 20;
 F = 5;
 M = N;
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 j=2; % choose the UPO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-dt = 0.01;
 
 T = Tp(j); % period UPO
 X = Xp(:, j);
 L= Lp(:,j);
 
+dt = 0.01;
 T_timeunits = T/dt;
 tau = dt * T_timeunits/fix(T_timeunits);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-dtL=T; % each step of the Lyapunov simulation is dtL long
+dtL=T/3; % each step of the Lyapunov simulation is dtL long
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Tfin=100*T; % Final time. How many times do I turn around the period?
+
+Tfin=400*T; % Final time. How many times do I turn around the period?
 
 
-%% GS ALGO
+%% ALGO
 
-Lambda_GS = lyapunov_UPOs_midpoint(dtL, X,T,Tfin, F, M);
-Lambda_byhand = LE_byhand(N, F, dtL,Tfin, T, X, tau);
+[Lambda_GS, Lexp_istGS] = lyapunov_UPOs_midpoint(dtL, X,T,Tfin, F, M);
+[Lambda_byhand, Lexp_ist_byhand] = LE_byhand(N, F, dtL,Tfin, T, X, tau);
 
 
 %% Plot the stuff

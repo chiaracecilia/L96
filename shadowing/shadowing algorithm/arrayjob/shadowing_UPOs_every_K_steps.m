@@ -32,7 +32,7 @@ indice_shad = zeros(length(x_chaotic),N);
 % implement a reduced version of the algorithm 
 k=0;
 
-for j = 2:length(x_chaotic)
+for j = 2:length(x_chaotic(:,1))
     % for each UPO consider the index that realises the minimum in the
     % previous step of the chaotic trajectory. 
     if (k==K)

@@ -11,9 +11,9 @@ load('dist_shadowing_UPO_reduced.mat')
 
 % parameters
 dt =0.01;
-M = 40;
+M = 20;
 F = 5;
-
+%%
 % calculate the trajectories of the shadowing UPOs only
 quelle_che_approssimano = UPOs_approx_index(1:number_orbits_for_approximation(1),1);
 X_sh = X(:,quelle_che_approssimano); 
@@ -74,9 +74,9 @@ for k=11:450  % for each point of the chaotic orbit, find and plot the closest U
     plot3(p,s, t, 'Color',c(j(i),:) );
     title( "UPO number: "+ i + ",\quad persistence:" + persistenza(i))
 
-    xlim([0.4,0.9]);
-     ylim([0.9,1.35]);
-     zlim([1,2.8]);
+%     xlim([0.4,0.9]);
+%      ylim([0.9,1.35]);
+%      zlim([1,2.8]);
     colormap(gca, c);
     l = colorbar;
     title(l,'T')
@@ -89,7 +89,7 @@ for k=11:450  % for each point of the chaotic orbit, find and plot the closest U
      hold off
     frame=getframe(gcf);
     writeVideo(v,frame);
-end
+    endpo
 
 
 

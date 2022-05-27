@@ -1,4 +1,4 @@
-function [Lambda_average_second_half] = lyapunov_UPOs_midpoint(stept, X,T, tend, F, M)
+function [Lambda_average_second_half, Lexp_ist] = lyapunov_UPOs_midpoint(stept, X,T, tend, F, M)
 
 
 %%% 

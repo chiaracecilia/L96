@@ -1,7 +1,7 @@
 %% this script calculates the average distances in the phase space 
 
 % parameters
-M = 40;
+M = 20;
 F = 5;
 T_chaotic = 100;
 dt = 0.01;

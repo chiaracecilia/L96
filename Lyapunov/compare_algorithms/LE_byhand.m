@@ -1,6 +1,6 @@
 % This script calculates the Lyapunov spectrum by hand for the UPOs
 
-function Lambda_average_second_half = LE_byhand(N, F, dtL, Tfin, T, X, tau)
+function [Lambda_average_second_half, Lexp_ist_V] = LE_byhand(N, F, dtL, Tfin, T, X, tau)
 
 M = N;
 
@@ -15,7 +15,7 @@ Nstep= round(Tfin/dtL);  % number of steps of the Lyap algorithm
 time=dtL*[0:Nstep]; % total time of the simulation. I will have Nstep each one of duration dtL
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-eps=1e-8; % displacement
+eps=1e-6; % displacement
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 traj_irr=zeros(Nstep,N); % contains the final point of the reference traj at each iteration

@@ -7,29 +7,28 @@ load('indice_shad_UPO_reduced.mat')
 load('shadowing_stats.mat')          
 load('shadowing_UPO_reduced.mat')
 load('dist_shadowing_UPO_reduced.mat')
-
+%%
 dt = 0.01;
 number_UPO=length(T);
-T_cha = 10^3;
-F = 5;
-M=40;
 
-% create the chaotic trajectory
-x_cha = create_chaotic_trajectory(dt, T_cha, M, F);               
+F = 5;
+M=20;
+
+             
 
 % evaluate the vector field on the chaotic trajectory 
 %% mean speed
-v = zeros(1,length(x_cha));
+v = zeros(1,length(x_chaotic));
 
-for i = 1:length(x_cha)
-    v(i) = norm(lorenz96(x_cha(i,:),M,F));
+for i = 1:length(x_chaotic)
+    v(i) = norm(lorenz96(x_chaotic(i,:),M,F));
 end
 
 %% evaluate the speed over the shadowing orbits
 
-v_shad_UPO = zeros(40,length(x_chaotic));
+v_shad_UPO = zeros(M,length(x_chaotic));
 s_shad_UPO = zeros(1,length(x_chaotic));
-v_x_chaotic = zeros(40,length(x_chaotic));
+v_x_chaotic = zeros(M,length(x_chaotic));
 s_x_chaotic = zeros(1,length(x_chaotic));
 
 
@@ -41,9 +40,11 @@ for i = 1:length(x_chaotic)
 end
 %%
 diff = zeros(1,length(x_chaotic));
+h = zeros(1,length(x_chaotic));
+
 for i = 1:length(x_chaotic)
-    h = norm(v_shad_UPO(:,i)-v_x_chaotic(:,i));
-    diff(i) = h/(norm(v_shad_UPO(:,i)) + norm(v_x_chaotic(:,i)));
+    h(i) = norm(v_shad_UPO(:,i)-v_x_chaotic(:,i));
+    diff(i) = h(i)/(norm(v_shad_UPO(:,i)) + norm(v_x_chaotic(:,i)));
 end
 
 
@@ -53,4 +54,19 @@ hist(diff)
 set(0,'defaulttextinterpreter','latex')
 ylabel('count')
 xlabel('$\frac{|v(chaotic \quad trajectory \quad  step \quad i)-v(shadowing \quad UPO \ step \quad i)|}{|v(chaotic \quad trajectory \quad step \quad i)| +|v(shadowing \quad UPO \ step \quad i)|}$')
+set(gca,'FontSize', 15)
+
+%% plot these
+
+hist(h) 
+set(0,'defaulttextinterpreter','latex')
+ylabel('count')
+xlabel('$\frac{|v(chaotic \quad trajectory \quad  step \quad i)-v(shadowing \quad UPO \ step \quad i)|}{|v(chaotic \quad trajectory \quad step \quad i)| +|v(shadowing \quad UPO \ step \quad i)|}$')
+set(gca,'FontSize', 15)
+
+%%
+hist(d2) 
+set(0,'defaulttextinterpreter','latex')
+ylabel('count')
+xlabel('distance between shadowing UPO and chaotic trajectory')
 set(gca,'FontSize', 15)
