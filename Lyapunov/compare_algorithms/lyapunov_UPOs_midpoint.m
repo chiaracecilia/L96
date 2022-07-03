@@ -26,8 +26,6 @@ T_timeunits = T/dt;
 tau = dt * T_timeunits/fix(T_timeunits);
 
 
-
-
 % Lyapunov algorithm spcification
 tstart = 0;
 nit = round((tend-tstart)/stept); %  Number of iterations of the exponent algorithm

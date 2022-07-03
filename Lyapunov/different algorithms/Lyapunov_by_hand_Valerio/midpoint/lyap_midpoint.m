@@ -3,8 +3,6 @@
 function Lambda = lyap_midpoint(N,F, dt, dtL,Tfin,Tspin, yo)
 
 
-
-
 Nstep= round(Tfin/dtL);  % number of steps of the Lyap algorithm
 time=dtL*[0:Nstep]; % total time of the simulation. I will have Nstep each one of duration dtL
 

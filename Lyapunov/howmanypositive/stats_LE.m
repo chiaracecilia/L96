@@ -3,17 +3,16 @@
 clear all
 clc
 
-load('upo_data')
-load('Lambda.mat')
+%load('upo_data')
 
 %%
-positive_LE = zeros(1,length(Tp));
+number_positive_LE = zeros(1,length(Tp));
 mean_pos = zeros(1,length(Tp));
-sum_pos = zeros(1,length(Tp));
+KS = zeros(1,length(Tp));
 z = zeros(1,length(Tp));
 
 for i = 1:length(Tp) 
-    [positive_LE(i), ~, mean_pos(i),~, z(i), ~ , sum_pos(i)] = sign_LE(Lp(:,i));
+    [number_positive_LE(i), ~, mean_pos(i),~, z(i), ~ , KS(i)] = sign_LE(Lp(:,i));
 end
     
 mean_first_LE = mean(Lp(1,:));
@@ -36,7 +35,7 @@ set(gca,'fontsize',14)
 
 %% histogram of number of unstable dimensions for the UPOs
 
-h = histogram(positive_LE,10);
+h = histogram(number_positive_LE,10);
 h.FaceColor = 'none';
 h.LineWidth = 1.5;
 xlabel('Number of Positive Lyapunov Exponents for each UPO');
@@ -55,7 +54,7 @@ set(gca,'FontSize', 20)
 
 %% histogram of mean value of the number of LE
 
-h = histogram(sum_pos,10,  'DisplayName','UPOs');
+h = histogram(KS_netropy,10,  'DisplayName','UPOs');
 h.FaceColor = 'none';
 h.LineWidth = 1.5;
 xlabel('KS entropy');
@@ -68,7 +67,7 @@ legend
 % figure;
 % scatterhist(positive_LE,mean_pos)
 
-u = ksdensity(positive_LE,positive_LE,'function','cdf');
+u = ksdensity(number_positive_LE,number_positive_LE,'function','cdf');
 v = ksdensity(mean_pos,mean_pos,'function','cdf');
 
 figure;
@@ -79,15 +78,15 @@ ylabel('mean value for each UPO of the positive LE')
 %%  primo LE, number positive LE
 
 % figure;
-scatterhist(positive_LE,first_LE)
+scatterhist(number_positive_LE,first_LE)
 xlabel('number of positive LE')
 ylabel('mean value for each UPO of the positive LE')
 %%
 
-bin = 0.5:max(sum_pos);
+bin = 0.5:max(KS_netropy);
 
 
-[aver, deviaz, aver_per, neg, pos] = data_for_error_bar(bin, first_LE, sum_pos);
+[aver, deviaz, aver_per, neg, pos] = data_for_error_bar(bin, first_LE, KS_netropy);
 figure(1)
 e = errorbar(aver_per, aver, neg, pos, 'k', 'LineWidth',2, 'DisplayName','first LE of the UPOs');
 e.LineStyle='--';
@@ -102,7 +101,7 @@ legend
 bin = 0.5:max(Tp);
 
 
-[aver, deviaz, aver_per, neg, pos] = data_for_error_bar(bin, positive_LE, Tp);
+[aver, deviaz, aver_per, neg, pos] = data_for_error_bar(bin, number_positive_LE, Tp);
 figure(1)
 e = errorbar(aver_per, aver, neg, pos, 'k', 'LineWidth',2, 'DisplayName','first LE of the UPOs');
 e.LineStyle='--';
@@ -119,7 +118,7 @@ mid = zeros(1, length(bin)-1);
 for i = 1: length(bin)-1
     mid(i) = bin(i)+0.5;
 end
-[aver, deviaz, aver_per, neg, pos] = data_for_error_bar(bin, positive_LE, Tp);
+[aver, deviaz, aver_per, neg, pos] = data_for_error_bar(bin, number_positive_LE, Tp);
 figure(1)
 e = errorbar(mid, aver, neg, pos, 'k', 'LineWidth',2);
 e.LineStyle='--';
@@ -134,7 +133,7 @@ set(gca,'FontSize', 20)
 % figure;
 % scatterhist(positive_LE,mean_pos)
 
-u = ksdensity(positive_LE,positive_LE,'function','cdf');
+u = ksdensity(number_positive_LE,number_positive_LE,'function','cdf');
 v = ksdensity(first_LE,first_LE,'function','cdf');
 
 figure;
